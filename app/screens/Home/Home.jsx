@@ -1,16 +1,26 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { 
+    View, 
+    Text, 
+    TouchableOpacity, 
+    StatusBar, 
+    SafeAreaView, 
+    ScrollView 
+} from 'react-native';
 
-import { signOut } from 'firebase/auth'
-import { FIREBASE_AUTH } from '../../../configs/firebase';
+import { COLORS, SIZES } from '../../../constants';
+import styles from './home.style';
 
 export default function Home() {
     
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Home</Text>
-            <TouchableOpacity onPress={ () => FIREBASE_AUTH.signOut() }>
-                <Text>LOGOUT</Text>
-            </TouchableOpacity>
-        </View>
+        <ScrollView
+            style={ styles.container }
+            showsVerticalScrollIndicator={ false }>
+            <View>
+                <StatusBar
+                    backgroundColor={COLORS.nero}
+                />
+            </View>
+        </ScrollView>
     )
 }

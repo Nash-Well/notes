@@ -3,6 +3,9 @@ const FONTS = {
     bold: 'RobotoCondensedBold',
     light: 'RobotoCondensedLight',
     semibold: 'RobotoCondensedSemiBold',
+    nutitoSemiBold: 'NutitoSemiBold',
+    nutitoRegular: 'NutitoRegular',
+    nutitoLight: 'NutitoLight'
 }
 
 const SIZES = {

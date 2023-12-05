@@ -4,7 +4,7 @@ import { onAuthStateChanged } from '@firebase/auth';
 import { FIREBASE_AUTH } from '../../configs/firebase';
 
 import Login from '../screens/Login/Login';
-import UserStack from './UserStack';
+import UserStack from './UserStack/UserStack';
 
 export default function Navigation() {
     let [ user, setUser ] = useState()
