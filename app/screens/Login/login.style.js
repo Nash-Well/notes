@@ -18,11 +18,12 @@ const styles = StyleSheet.create({
         fontSize: SIZES.xxLarge,
         marginBottom: 30,
         fontFamily: FONTS.regular,
+        textTransform: 'uppercase',
     },
 
     inputContainer: {
         gap: 5,
-        marginBottom: 18,
+        marginBottom: 14,
         paddingBottom: 3,
         alignItems: 'center',
         flexDirection: 'row',
@@ -37,39 +38,22 @@ const styles = StyleSheet.create({
         fontFamily: FONTS.semibold,
     },
 
-    registerContainer: {
-        gap: 2,
-        marginTop: 5,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-
-    accountText: {
-        fontSize: SIZES.medium,
-        fontFamily: FONTS.regular,
-    },
-
-    registerText: {
-        color: COLORS.purple,
-        fontSize: SIZES.medium,
-        fontFamily: FONTS.regular,
-    },
-
-    loginBtn: {
+    loginBtn: (register=false) => ({
         padding: 15,
-        marginTop: 40,
+        marginTop: 18,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: COLORS.black,
+        backgroundColor: register ? COLORS.purple : COLORS.primary,
         width: Dimensions.get('screen').width*0.6
-    },
+    }),
 
     loginBtnText: {
         fontSize: SIZES.large,
         color: COLORS.white,
         alignItems: 'center',
         fontFamily: FONTS.regular,
+        textTransform: 'uppercase',
     }
 })
 

@@ -1,29 +1,19 @@
+import { useEffect, useState } from 'react';
+
+import { onAuthStateChanged } from '@firebase/auth';
+import { FIREBASE_AUTH } from '../../configs/firebase';
+
 import Login from '../screens/Login/Login';
-import Register from '../screens/Register/Register';
-
-import { createStackNavigator } from '@react-navigation/stack';
-
-const Stack = createStackNavigator();
+import UserStack from './UserStack';
 
 export default function Navigation() {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen 
-                name="login" 
-                component={ Login } 
-                options={{ 
-                    headerShown: false
-                }}
-            />
+    let [ user, setUser ] = useState()
+    
+    useEffect(() => {
+        onAuthStateChanged(FIREBASE_AUTH, (user) => {
+            setUser(user);
+        })
+    }, [])
 
-            <Stack.Screen 
-                name="register" 
-                component={ Register } 
-                options={{
-                    title: '',
-                    headerShadowVisible: false,
-                }}
-            />
-        </Stack.Navigator>
-    )
+    return user ? <UserStack /> : <Login />
 }
