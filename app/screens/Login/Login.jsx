@@ -44,7 +44,7 @@ export default function Login() {
                             hidden ? 
                                 <Ionicons 
                                     name="md-lock-closed-outline" 
-                                    size={24} 
+                                    size={22} 
                                     color="black" 
                                 /> : 
                             <Ionicons 
@@ -73,7 +73,7 @@ export default function Login() {
 
                 <TouchableOpacity style={ styles.loginBtn }>
                     <Text style={ styles.loginBtnText }>
-                        Login
+                        LOGIN
                     </Text>
                 </TouchableOpacity>
             </View>

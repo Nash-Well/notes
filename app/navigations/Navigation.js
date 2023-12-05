@@ -19,6 +19,10 @@ export default function Navigation() {
             <Stack.Screen 
                 name="register" 
                 component={ Register } 
+                options={{
+                    title: '',
+                    headerShadowVisible: false,
+                }}
             />
         </Stack.Navigator>
     )
