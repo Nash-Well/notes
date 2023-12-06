@@ -5,6 +5,7 @@ const COLORS = {
     primary: '#0004ff',
     nero: '#252525',
     eclipse: '#3B3B3B',
+    black: '#000000',
 }
 
 export { COLORS };

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     },
     
     headerContainer: {
-        gap: 12,
+        gap: 15,
         marginRight: 20,
         display: 'flex',
         flexDirection: 'row',
