@@ -1,6 +1,6 @@
-import { 
-    View, 
-    Text, 
+import { useNavigation } from '@react-navigation/native';
+
+import {
     TouchableOpacity, 
     StatusBar, 
     SafeAreaView, 
@@ -15,14 +15,17 @@ import NoNotes from '../../components/Home/nonotes/NoNotes';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function Home() {
-    
+    const navigation = useNavigation();
+
     return (
         <SafeAreaView style={ styles.container }>
             <ScrollView showsVerticalScrollIndicator={ false }>
                 <NoNotes />
             </ScrollView>
 
-            <TouchableOpacity style={ styles.floatingButton }>
+            <TouchableOpacity 
+                style={ styles.floatingButton }
+                onPress={ () => navigation.navigate('editor') }>
                 <AntDesign 
                     name="plus" 
                     size={ 32 } 

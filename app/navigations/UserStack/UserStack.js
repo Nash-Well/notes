@@ -1,5 +1,7 @@
 import { TouchableOpacity, View } from 'react-native';
+
 import Home from '../../screens/Home/Home';
+import Editor from '../../screens/Editor/Editor';
 
 import styles from './userstack.style';
 import { COLORS } from '../../../constants';
@@ -48,6 +50,12 @@ export default function UserStack() {
                         </View>
                     )
                 }}
+            />
+
+            <Stack.Screen
+                name='editor'
+                component={ Editor }
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     )

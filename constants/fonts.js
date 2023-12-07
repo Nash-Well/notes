@@ -16,6 +16,7 @@ const SIZES = {
     large: 20,
     xLarge: 24,
     xxLarge: 32,
+    huge: 48,
 };
 
 export { FONTS, SIZES };
