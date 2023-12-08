@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { 
     View,
@@ -10,19 +11,44 @@ import {
 } from 'react-native'
 
 import styles from './editor.style'
-import { COLORS } from '../../../constants';
+import { COLORS, NOTE_COLORS } from '../../../constants';
 
 import Header from '../../components/Editor/header/Header';
 import ExpandInput from '../../components/Shared/ExpandInput/ExpandInput';
 
+import uuid from 'react-native-uuid';
 import { Ionicons } from '@expo/vector-icons';
 
+import { addDoc, collection } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../../../configs/firebase';
+
 export default function Editor() {
+    const navigation = useNavigation();
+    
     let [ visible, setVisible ] = useState(false);
     let [ values, setValues ] = useState({
+        id: '',
         title: '',
-        description: ''
+        description: '',
+        color: ''
     })
+
+    const handleSave = async () => {
+        try {
+            await addDoc(collection(FIREBASE_DB, "notes"), {
+                id: uuid.v4(),
+                title: values.title,
+                description: values.description,
+                email: FIREBASE_AUTH.currentUser.email,
+                color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)],
+            })
+
+            setVisible(false);
+            navigation.navigate('home');
+        } catch(err) {
+            console.log(err)
+        }
+    }
 
     return (
         <SafeAreaView style={ styles.container }>
@@ -64,7 +90,8 @@ export default function Editor() {
                                     <Text style={ styles.actionBtnText }>Discard</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={ styles.actionBtn(true) }>
+                                <TouchableOpacity style={ styles.actionBtn(true) }
+                                    onPress={ handleSave }>
                                     <Text style={ styles.actionBtnText }>Save</Text>
                                 </TouchableOpacity>
                             </View>

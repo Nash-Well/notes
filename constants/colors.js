@@ -16,4 +16,13 @@ const COLORS = {
     nobelRGB: '154,154,154',
 }
 
-export { COLORS };
+const NOTE_COLORS = [
+    '#FD99FF',
+    '#FF9E9E',
+    '#91F48F',
+    '#FFF599',
+    '#9EFFFF',
+    '#B69CFF'
+]
+
+export { COLORS, NOTE_COLORS };
