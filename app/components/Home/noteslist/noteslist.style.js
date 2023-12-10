@@ -11,6 +11,15 @@ const styles = StyleSheet.create({
         backgroundColor: !pressed ? COLORS.shadeBlue : color,
     }),
 
+    attachedIcon: {
+        top: 0,
+        right: 0,
+        zIndex: 1,
+        margin: -15,
+        paddingVertical: 2,
+        position: 'absolute',
+    },
+
     deleteNote: {
         alignItems: 'center',
         justifyContent: 'center',

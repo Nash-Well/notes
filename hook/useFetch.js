@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { getDocs, query, collection, where } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIREBASE_DB } from '../configs/firebase';
 
-export default useFetch = () => {
+export default useFetch = (filter) => {
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ error, setError ] = useState(null);
@@ -12,12 +12,24 @@ export default useFetch = () => {
         setIsLoading(true);
 
         try {
-            const resp = await getDocs(
-                query(
-                    collection(FIREBASE_DB, "notes"), 
-                    where("email", "==", FIREBASE_AUTH.currentUser.email)
-                )
-            );
+            let resp;
+
+            if (filter !== 'All') {
+                resp = await getDocs(
+                    query(
+                        collection(FIREBASE_DB, "notes"), 
+                        where("email", "==", FIREBASE_AUTH.currentUser.email),
+                        where("attached", "==", filter === 'Attached' ? true : false)
+                    )
+                );
+            } else {
+                resp = await getDocs(
+                    query(
+                        collection(FIREBASE_DB, "notes"), 
+                        where("email", "==", FIREBASE_AUTH.currentUser.email)
+                    )
+                );
+            }
 
             setData(resp.docs.map(doc => doc.data()));
         } catch(error) {
@@ -30,7 +42,7 @@ export default useFetch = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [ filter ]);
 
     const reFetch = () => {
         return fetchData();

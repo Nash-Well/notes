@@ -12,7 +12,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import { FIREBASE_DB } from '../../../../configs/firebase';
 import { updateDoc, deleteDoc, query, where, getDocs, doc, collection  } from 'firebase/firestore';
 
-export default function NotesList({ notes, setNotes }) {    
+export default function NotesList({ notes, setNotes, filter }) {    
     let [ pressed, setPressed ] = useState('');
     const navigation = useNavigation();
     
@@ -27,7 +27,7 @@ export default function NotesList({ notes, setNotes }) {
             }
 
             setNotes(notes.filter(note => note.id !== pressed))
-        } catch(err) {
+        } catch(err) { // TODO remake
             console.log(err)
         }
     }
@@ -51,11 +51,13 @@ export default function NotesList({ notes, setNotes }) {
                         }
                     )
                 );
+
+                filter && setNotes(notes.filter(n => n.id !== note.id))
             }
-        } catch (err) {
+        } catch (err) { // TODO remake
             console.error(err);
         }
-    };      
+    };   
 
     return (
         <>
@@ -69,9 +71,21 @@ export default function NotesList({ notes, setNotes }) {
                         onPress={ () => navigation.navigate('editor', { note: note}) }>
                         {
                             pressed !== note.id ?
-                                <Text style={ styles.notesText }>
-                                    { note.title }
-                                </Text>
+                                <View>
+                                    { note.attached && 
+                                        <View style={ styles.attachedIcon }>
+                                            <SimpleLineIcons 
+                                                name="pin" 
+                                                size={ SIZES.large } 
+                                                color={ COLORS.white } 
+                                            />
+                                        </View>
+                                    }
+
+                                    <Text numberOfLines={ 3 } style={ styles.notesText }>
+                                        { note.title }
+                                    </Text>
+                                </View>
                             : (
                                 <View style={ styles.iconsContainer }>
                                     <TouchableOpacity style={ styles.deleteBtn }

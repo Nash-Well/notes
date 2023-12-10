@@ -16,17 +16,25 @@ import styles from './home.style';
 import { COLORS } from '../../../constants';
 
 import NoNotes from '../../components/Home/nonotes/NoNotes';
+import Filters from '../../components/Home/filters/Filters';
 import NotesList from '../../components/Home/noteslist/NotesList';
 
 import { AntDesign } from '@expo/vector-icons';
+
+const filters = [
+    'All',
+    'Attached',
+    'Not attached',
+];
 
 export default function Home() {
     const navigation = useNavigation();
     
     let [ notes, setNotes ] = useState([]);
+    let [ filter, setFilter ] = useState(filters[0]);
     let [ refreshing, setRefreshing ] = useState(false);
     
-    const { data, isLoading, error, reFetch } = useFetch();
+    const { data, isLoading, error, reFetch } = useFetch(filter);
 
     useEffect(() => {
         setNotes([ ...data ])
@@ -43,6 +51,13 @@ export default function Home() {
             <ScrollView 
                 showsVerticalScrollIndicator={ false }
                 refreshControl={ <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } /> }>
+                
+                <Filters
+                    filter={ filter }
+                    filters={ filters }
+                    setFilter={ setFilter }
+                />
+                
                 {
                     isLoading ? 
                         <ActivityIndicator 
@@ -56,6 +71,7 @@ export default function Home() {
                         <NotesList 
                             notes={ notes }
                             setNotes={ setNotes }
+                            filter={ filter !== 'All' }
                         />
                     :   <NoNotes />
                 }
