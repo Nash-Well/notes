@@ -12,6 +12,8 @@ const COLORS = {
     zambezi: '#606060',
     red: '#F00',
     coolGreen: '#30BE71',
+    gold: '#FFD700',
+    shadeBlue: '#3498db',
 
     nobelRGB: '154,154,154',
 }

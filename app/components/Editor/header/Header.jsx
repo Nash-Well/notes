@@ -8,7 +8,7 @@ import styles from '../../../navigations/UserStack/userstack.style';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function Header({ setVisible }) {
+export default function Header({ setVisible, edit, setEditable }) {
     const navigation = useNavigation();
     
     return (
@@ -22,23 +22,38 @@ export default function Header({ setVisible }) {
             </TouchableOpacity>
 
             <View style={ headerStyles.headerContainer }>
-                <TouchableOpacity style={ styles.iconBtn }>
-                    <Ionicons 
-                        name="md-eye-outline" 
-                        size={24} 
-                        color={ COLORS.white } 
-                    />
-                </TouchableOpacity>
+                {
+                    !edit ? (
+                        <>
+                            <TouchableOpacity style={ styles.iconBtn }>
+                                <Ionicons 
+                                    name="md-eye-outline" 
+                                    size={24} 
+                                    color={ COLORS.white } 
+                                />
+                            </TouchableOpacity>
 
-                <TouchableOpacity 
-                    style={ styles.iconBtn }
-                    onPress={ () => setVisible(true) }>
-                    <MaterialCommunityIcons 
-                        name="content-save-outline" 
-                        size={24} 
-                        color={ COLORS.white }
-                    />
-                </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={ styles.iconBtn }
+                                onPress={ () => setVisible(true) }>
+                                <MaterialCommunityIcons 
+                                    name="content-save-outline" 
+                                    size={24} 
+                                    color={ COLORS.white }
+                                />
+                            </TouchableOpacity>
+                        </>
+                    ) : (
+                        <TouchableOpacity style={ styles.iconBtn }
+                            onPress={ () => setEditable(true) }>
+                            <MaterialCommunityIcons 
+                                name="pencil-outline" 
+                                size={24} 
+                                color={ COLORS.white }
+                            />
+                        </TouchableOpacity>
+                    )
+                }
             </View>
         </View>
     )

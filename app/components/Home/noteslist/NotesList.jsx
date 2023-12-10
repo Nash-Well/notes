@@ -1,35 +1,61 @@
 import { useState } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import styles from './noteslist.style'
-
-import { MaterialIcons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../../../../constants';
 
+import { MaterialIcons } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
+
 import { FIREBASE_DB } from '../../../../configs/firebase';
-import { deleteDoc, query, where, getDocs, doc, collection  } from 'firebase/firestore';
+import { updateDoc, deleteDoc, query, where, getDocs, doc, collection  } from 'firebase/firestore';
 
 export default function NotesList({ notes, setNotes }) {    
-    let [ pressed, setPressed ] = useState('')
+    let [ pressed, setPressed ] = useState('');
+    const navigation = useNavigation();
     
-    const handlePress = async () => {
-        if(pressed !== '') {
-            try {
-                const q = query(collection(FIREBASE_DB, "notes"), where("id", "==", pressed));
-                const qs = await getDocs(q);
-                
-                if (!qs.empty) {
-                    const document = qs.docs[0];
-                    const dr = doc(FIREBASE_DB, "notes", document.id);
-                    await deleteDoc(dr);
-                }
-            } catch(err) {
-                console.log(err)
-            } finally {
-                setNotes(notes.filter(note => note.id !== pressed))
+    const handleDelete = async () => {
+        try {
+            const qs = await getDocs(
+                query(collection(FIREBASE_DB, "notes"), where("id", "==", pressed))
+            );
+            
+            if (!qs.empty) {
+                await deleteDoc(doc(FIREBASE_DB, "notes", qs.docs[0].id));
             }
+
+            setNotes(notes.filter(note => note.id !== pressed))
+        } catch(err) {
+            console.log(err)
         }
     }
+
+    const handleAttachment = async (note) => {        
+        try {
+            const qs = await getDocs(
+                query(collection(FIREBASE_DB, "notes"), where("id", "==", pressed))
+            );
+        
+            if (!qs.empty) {
+                await updateDoc(doc(FIREBASE_DB, "notes", qs.docs[0].id), {
+                    ...note,
+                    attached: !note.attached,
+                });
+        
+                setNotes((pNotes) =>
+                    pNotes.map((n) =>
+                        n.id !== pressed ? n : { 
+                            ...n, attached: !n.attached 
+                        }
+                    )
+                );
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };      
 
     return (
         <>
@@ -37,16 +63,36 @@ export default function NotesList({ notes, setNotes }) {
                 notes?.map(note => (
                     <TouchableOpacity 
                         key={ note.id } 
+                        delayLongPress={ 500 }
                         style={[ styles.noteContainer(note.id !== pressed, note.color), pressed === note.id ? styles.deleteNote : {} ]}
                         onLongPress={ () => { pressed === note.id ? setPressed('') : setPressed(note.id) } }
-                        delayLongPress={ 500 }
-                        onPress={ handlePress }>
+                        onPress={ () => navigation.navigate('editor', { note: note}) }>
                         {
                             pressed !== note.id ?
                                 <Text style={ styles.notesText }>
                                     { note.title }
                                 </Text>
-                            : <MaterialIcons name="delete" size={ SIZES.xxLarge } color={ COLORS.white } /> 
+                            : (
+                                <View style={ styles.iconsContainer }>
+                                    <TouchableOpacity style={ styles.deleteBtn }
+                                        onPress={ handleDelete }>
+                                        <MaterialIcons 
+                                            name="delete" 
+                                            size={ SIZES.xLarge } 
+                                            color={ COLORS.white } 
+                                        />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity style={[ styles.atchBtn(note.attached) ]}
+                                        onPress={ () => handleAttachment(note) }>
+                                        <SimpleLineIcons 
+                                            name="pin" 
+                                            size={ SIZES.xLarge } 
+                                            color={ COLORS.gold } 
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                            ) 
                         }
                     </TouchableOpacity>
                 ))

@@ -4,14 +4,14 @@ import { TextInput } from 'react-native'
 import styles from './expandinput.style';
 import { COLORS } from '../../../../constants';
 
-export default function ExpandInput({ placeholder, value, setValue }) {
+export default function ExpandInput({ placeholder, value, setValue, editable }) {
     const [height, setHeight] = useState(42);
     
     return (
         <TextInput
-            editable
             multiline
             value={ value }
+            editable={ editable }
             placeholder={ placeholder }
             placeholderTextColor={ COLORS.nobel }
             onChangeText={ (text) => setValue(text) }

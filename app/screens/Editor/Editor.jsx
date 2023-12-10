@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { 
     View,
@@ -22,21 +22,27 @@ import { Ionicons } from '@expo/vector-icons';
 import { addDoc, collection } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIREBASE_DB } from '../../../configs/firebase';
 
+const defaultValue = {
+    id: '',
+    title: '',
+    description: '',
+    color: '',
+    attached: false,
+}
+
 export default function Editor() {
     const navigation = useNavigation();
+    const params = useRoute().params;
     
+    let [ editable, setEditable ] = useState(params?.note ? false : true);
     let [ visible, setVisible ] = useState(false);
-    let [ values, setValues ] = useState({
-        id: '',
-        title: '',
-        description: '',
-        color: ''
-    })
+    let [ values, setValues ] = useState(params?.note ? params.note : defaultValue);
 
     const handleSave = async () => {
         try {
             await addDoc(collection(FIREBASE_DB, "notes"), {
                 id: uuid.v4(),
+                attached: false,
                 title: values.title,
                 description: values.description,
                 email: FIREBASE_AUTH.currentUser.email,
@@ -52,17 +58,23 @@ export default function Editor() {
 
     return (
         <SafeAreaView style={ styles.container }>
-            <Header setVisible={ setVisible } />
+            <Header 
+                setVisible={ setVisible } 
+                setEditable={ setEditable }
+                edit={ params?.note ? true : false }
+            />
 
             <ScrollView style={ styles.inputContainer } showsVerticalScrollIndicator={ false }>
                 <ExpandInput
                     placeholder='Title'
+                    editable={ editable }
                     value={ values.title }
                     setValue={ (val) => setValues({ ...values, title: val }) }
                 />
 
                 <ExpandInput
                     placeholder='Type something...'
+                    editable={ editable }
                     value={ values.description }
                     setValue={ (val) => setValues({ ...values, description: val }) }
                 />

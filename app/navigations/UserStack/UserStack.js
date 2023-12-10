@@ -6,6 +6,7 @@ import Editor from '../../screens/Editor/Editor';
 import styles from './userstack.style';
 import { COLORS } from '../../../constants';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import { FIREBASE_AUTH } from '../../../configs/firebase';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -38,11 +39,10 @@ export default function UserStack() {
                                 />
                             </TouchableOpacity>
 
-                            <TouchableOpacity 
-                                style={ styles.iconBtn }
+                            <TouchableOpacity style={ styles.iconBtn }
                                 onPress={ () => FIREBASE_AUTH.signOut() }>
-                                <Ionicons 
-                                    name="ios-information-circle-outline" 
+                                <MaterialIcons 
+                                    name="logout" 
                                     size={24} 
                                     color={ COLORS.white }
                                 />

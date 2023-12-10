@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
     iconBtn: {
         padding: 10,
         borderRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: COLORS.eclipse,
     }
 })
