@@ -19,8 +19,8 @@ import ExpandInput from '../../components/Shared/ExpandInput/ExpandInput';
 import uuid from 'react-native-uuid';
 import { Ionicons } from '@expo/vector-icons';
 
-import { addDoc, collection } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIREBASE_DB } from '../../../configs/firebase';
+import { addDoc, collection, query, where, updateDoc, getDocs, doc } from 'firebase/firestore';
 
 const defaultValue = {
     id: '',
@@ -31,23 +31,34 @@ const defaultValue = {
 }
 
 export default function Editor() {
-    const navigation = useNavigation();
     const params = useRoute().params;
+    const navigation = useNavigation();
     
-    let [ editable, setEditable ] = useState(params?.note ? false : true);
     let [ visible, setVisible ] = useState(false);
+    let [ editable, setEditable ] = useState(params?.note ? false : true);
     let [ values, setValues ] = useState(params?.note ? params.note : defaultValue);
 
     const handleSave = async () => {
         try {
-            await addDoc(collection(FIREBASE_DB, "notes"), {
-                id: uuid.v4(),
-                attached: false,
-                title: values.title,
-                description: values.description,
-                email: FIREBASE_AUTH.currentUser.email,
-                color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)],
-            })
+            
+            if (params?.note) {
+                const qs = await getDocs(
+                    query(collection(FIREBASE_DB, "notes"), where("id", "==", values.id))
+                );
+            
+                if (!qs.empty) {
+                    await updateDoc(doc(FIREBASE_DB, "notes", qs.docs[0].id), { ...values });
+                }
+            } else {
+                await addDoc(collection(FIREBASE_DB, "notes"), {
+                    id: uuid.v4(),
+                    attached: false,
+                    title: values.title,
+                    description: values.description,
+                    email: FIREBASE_AUTH.currentUser.email,
+                    color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)],
+                })
+            }
 
             setVisible(false);
             navigation.navigate('home');
@@ -59,6 +70,7 @@ export default function Editor() {
     return (
         <SafeAreaView style={ styles.container }>
             <Header 
+                editable={ editable }
                 setVisible={ setVisible } 
                 setEditable={ setEditable }
                 edit={ params?.note ? true : false }

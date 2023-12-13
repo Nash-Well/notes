@@ -8,7 +8,7 @@ import styles from '../../../navigations/UserStack/userstack.style';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function Header({ setVisible, edit, setEditable }) {
+export default function Header({ editable, setVisible, edit, setEditable }) {
     const navigation = useNavigation();
     
     return (
@@ -23,7 +23,7 @@ export default function Header({ setVisible, edit, setEditable }) {
 
             <View style={ headerStyles.headerContainer }>
                 {
-                    !edit ? (
+                    !edit || editable ? (
                         <>
                             <TouchableOpacity style={ styles.iconBtn }>
                                 <Ionicons 
