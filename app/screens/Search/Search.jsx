@@ -40,7 +40,7 @@ export default function Search() {
 
             <Header 
                 copy={ copy }
-                notes={ notes }
+                refetch={ reFetch }
                 setNotes={ setNotes }
             />
 
