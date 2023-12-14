@@ -3,6 +3,12 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONTS } from "../../../constants";
 
 const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+        flexDirection: 'row', 
+        justifyContent: 'space-between',
+    },
+    
     headerTitle: {
         fontSize: 32,
         color: COLORS.white,
@@ -11,7 +17,6 @@ const styles = StyleSheet.create({
     
     headerContainer: {
         gap: 15,
-        marginRight: 20,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',

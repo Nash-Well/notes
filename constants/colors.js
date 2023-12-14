@@ -13,6 +13,7 @@ const COLORS = {
     red: '#F00',
     coolGreen: '#30BE71',
     gold: '#FFD700',
+    grayEighty: '#CCCCCC',
     shadeBlue: '#3498db',
 
     nobelRGB: '154,154,154',

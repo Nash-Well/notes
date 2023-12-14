@@ -20,8 +20,9 @@ import Filters from '../../components/Home/filters/Filters';
 import NotesList from '../../components/Home/noteslist/NotesList';
 
 import { AntDesign } from '@expo/vector-icons';
+import Header from '../../components/Home/header/Header';
 
-const filters = [
+export const filters = [
     'All',
     'Attached',
     'Not attached',
@@ -47,8 +48,12 @@ export default function Home() {
     }, [])
 
     return (
-        <SafeAreaView style={[  styles.container ]}>
+        <SafeAreaView style={ styles.container }>
+            
+            <Header />
+            
             <ScrollView 
+                style={{ paddingHorizontal: 20 }}
                 showsVerticalScrollIndicator={ false }
                 refreshControl={ <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } /> }>
                 
