@@ -10,7 +10,7 @@ import styles from './header.style';
 import { Entypo } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../../../../constants';
 
-export default function Header({ copy, refetch, setNotes }) {
+export default function Header({ notes, refetch, setNotes }) {
     let [ search, setSearch ] = useState('');
 
     const handleTextChange = async (text) => {
@@ -20,11 +20,16 @@ export default function Header({ copy, refetch, setNotes }) {
             await refetch()
         } else {
             setNotes(
-                copy.filter(
+                notes.filter(
                     note => note.title.toLowerCase().includes(text.toLowerCase())
                 )
             )
         }
+    }
+
+    const handleClear = async () => {
+        setSearch(''); 
+        await refetch();
     }
 
     return (
@@ -38,7 +43,7 @@ export default function Header({ copy, refetch, setNotes }) {
                     placeholderTextColor={ COLORS.grayEighty }
                 />
 
-                <TouchableOpacity onPress={ () => { setSearch(''); setNotes(copy) } }>
+                <TouchableOpacity onPress={ handleClear }>
                     <Entypo 
                         name="cross" 
                         size={ SIZES.xLarge } 

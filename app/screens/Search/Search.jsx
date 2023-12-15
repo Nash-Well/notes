@@ -18,14 +18,12 @@ import EmptySearch from '../../components/Search/emptysearch/EmptySearch';
 import NotesList from '../../components/Home/noteslist/NotesList';
 
 export default function Search() {
-    let [ copy, setCopy ] = useState([]);
     let [ notes, setNotes ] = useState([]);
     let [ refreshing, setRefreshing ] = useState(false);
     
     const { data, isLoading, error, reFetch } = useFetch(filters[0]);
 
     useEffect(() => {
-        setCopy([ ...data ]);
         setNotes([ ...data ]);
     }, [ data ])
 
@@ -39,7 +37,7 @@ export default function Search() {
         <SafeAreaView style={ styles.container }>
 
             <Header 
-                copy={ copy }
+                notes={ notes }
                 refetch={ reFetch }
                 setNotes={ setNotes }
             />

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { COLORS, SIZES } from "../../../../constants";
+import { COLORS, FONTS, SIZES } from "../../../../constants";
 
 const headerStyles = StyleSheet.create({
     container: {
@@ -19,7 +19,12 @@ const headerStyles = StyleSheet.create({
         padding: SIZES.xSmall,
         borderRadius: 15,
         backgroundColor: COLORS.eclipse,
-    }
+    },
+
+    toastText: (title) => ({
+        fontSize: title ? SIZES.medium : 14,
+        fontFamily: title ? FONTS.nutitoSemiBold : FONTS.nutitoRegular 
+    })
 })
 
 export default headerStyles;

@@ -13,6 +13,7 @@ import {
 import styles from './editor.style'
 import { COLORS, NOTE_COLORS } from '../../../constants';
 
+import Toast from 'react-native-toast-message';
 import Header from '../../components/Editor/header/Header';
 import ExpandInput from '../../components/Shared/ExpandInput/ExpandInput';
 
@@ -52,8 +53,8 @@ export default function Editor() {
             } else {
                 await addDoc(collection(FIREBASE_DB, "notes"), {
                     id: uuid.v4(),
-                    attached: false,
                     title: values.title,
+                    attached: values.attached,
                     description: values.description,
                     email: FIREBASE_AUTH.currentUser.email,
                     color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)],
@@ -74,6 +75,8 @@ export default function Editor() {
                 setVisible={ setVisible } 
                 setEditable={ setEditable }
                 edit={ params?.note ? true : false }
+                attached={ values.attached }
+                setAttached={ () => setValues({ ...values, attached: !values.attached }) }
             />
 
             <ScrollView style={ styles.inputContainer } showsVerticalScrollIndicator={ false }>
@@ -123,6 +126,7 @@ export default function Editor() {
                     </View>
                 </Modal>
             </ScrollView>
+            <Toast position='bottom' />
         </SafeAreaView>
     )
 }
